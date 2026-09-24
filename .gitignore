@@ -1,0 +1,22 @@
+__pycache__/
+__MACOSX/
+*.py[cod]
+*.egg-info/
+.eggs/
+dist/
+build/
+.pytest_cache/
+.venv/
+venv/
+.ipynb_checkpoints/
+outputs/
+# training dumps; keep the published checkpoint
+*.zip
+!src/aRieL/models/*.zip
+
+*.parquet
+.DS_Store
+
+# user-supplied catalogues (the MCS is not part of this package)
+data/raw/
+data/*.csv

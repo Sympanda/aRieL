@@ -1,0 +1,45 @@
+# Mid-episode catalogue growth (TPC / TESS confirmations injected over time).
+#
+# schedule_mode:
+#   fixed        — same planets/times every episode (recommended start)
+#   per_episode  — resample from reset(seed) each episode
+#
+# Requires a TPC CSV via $ARIEL_DATA, ./data/raw/TPC.csv, or tpc_csv_path.
+# For a fixed MCS only, use the full_set or default presets.
+
+mission:
+  start_bjd: 2462867.5
+  lifetime_days: 1278.375
+  cost_factor: 2.5
+  overhead_days_per_obs: 0.0
+  max_tier_cap: 3
+
+catalogue_growth:
+  enabled: true
+  tpc_csv_path: ""                 # empty → $ARIEL_DATA or ./data/raw/TPC.csv
+  mean_per_month: 15.0
+  std_per_month: 5.0
+  month_days: 30.4375
+  schedule_mode: fixed             # same planets @ same BJDs every episode
+  schedule_seed: 42                # -1 → use env seed below
+
+slew:
+  rate_deg_per_min: 1.0
+  min_slew_seconds: 120.0
+  max_slew_seconds: 7200.0
+
+action:
+  type: full_set
+  full_set:
+    include_completed: false
+    cache_static: true
+    exclude_started_blocks: true   # omit in-progress blocks from ISAB tokens
+    n_max: 2000                    # MCS (~814) + TPC remainder; unused while k_filter > 0
+    k_filter: 72                   # ISAB token count N
+
+observation:
+  include_population_bin_fractions: true
+  min_bin_targets: 10
+  normalise: true
+
+seed: 42

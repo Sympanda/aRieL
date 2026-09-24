@@ -1,0 +1,65 @@
+# Simple environment config — top-K action space, all default features.
+# Good starting point for initial experiments.
+
+mission:
+  start_bjd: 2462867.5        # ~2029-01-01
+  lifetime_days: 1278.375     # 3.5 years
+  cost_factor: 2.5
+  overhead_days_per_obs: 0.0
+
+slew:
+  rate_deg_per_min: 1.0       # placeholder — true Ariel value TBD
+  min_slew_seconds: 120.0     # 2 min settle/guide-star floor
+  max_slew_seconds: 7200.0    # 2 hr cap
+
+action:
+  type: topk
+  topk:
+    k: 50
+    sort_by: window_mid
+
+observation:
+  include_population_bin_fractions: true
+  normalise: true
+  event_features:
+    - slew_time_days
+    - window_urgency_norm
+    - duration_days
+    - total_time_cost_days
+    - progress_in_tier
+    - obs_remaining_next_tier_norm
+    - base_science_value
+    - science_weight
+    - planet_radius_norm
+    - planet_temperature_norm
+    - planet_mass_norm
+    - stellar_temperature_norm
+    - stellar_metallicity
+    - tier_goal_norm
+    - event_type_binary
+    - days_to_window_end_norm
+  global_features:
+    - fraction_elapsed
+    - tier1_fraction
+    - tier2_fraction
+    - tier3_fraction
+    - used_science_fraction
+    - used_slew_fraction
+    - n_observations_norm
+    - n_completed_targets_norm
+
+reward:
+  tier1_completion: 1.0
+  tier2_completion: 0.67
+  tier3_completion: 0.33
+  progress_weight: 0.3
+  efficiency_weight: 0.5
+  near_completion_threshold: 0.7
+  near_completion_scale: 3.0
+  t1_milestone_fractions: [0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0]
+  t1_milestone_bonus: 20.0
+  t1_terminal_weight: 50.0
+  t1_terminal_power: 2.0
+  miss_penalty: 0.1
+
+seed: 42

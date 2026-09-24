@@ -1,0 +1,27 @@
+# From this directory:
+#   conda env create -f environment.yml
+#   conda activate ariel-rl
+#
+# PyTorch comes from conda. The pip section installs this folder with the
+# train and dev extras.
+
+name: ariel-rl
+
+channels:
+  - pytorch
+  - conda-forge
+
+dependencies:
+  - python=3.11
+  - pip
+  - numpy>=1.24
+  - pandas>=2.0
+  - scipy>=1.12
+  - pyyaml>=6.0
+  - matplotlib>=3.8
+  - gymnasium>=1.0
+  - pytorch>=2.3
+  - pytest>=8.0
+  - ipykernel
+  - pip:
+      - -e ".[train,dev]"

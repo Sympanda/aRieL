@@ -1,0 +1,80 @@
+# Reward preset: Survey First v2  (scaled)
+#
+# All absolute reward values are calibrated so a typical step yields ~0.1–0.5.
+# Milestone spikes are at most ~30× the typical step (vs 60× in v1) — much
+# easier for the PPO value function to predict accurately.
+#
+# Design rationale
+# ----------------
+# Completion bonuses: T1 1.0, T2 0.5, T3 0.5.
+# The agent uses science_weight × diversity_multiplier to decide tier priority
+# rather than a fixed numerical hierarchy — this avoids the T3-farming failure
+# mode where the agent waits idle for rare high-tier events.
+#
+# Overhead penalty uses ABSOLUTE days (not fraction of step).
+# Opportunity cost of idle/slew is proportional to mission time lost regardless
+# of what is observed afterward.  Fraction-based penalties get diluted by long
+# deep-tier observations.
+#
+# T1 breadth is the primary long-horizon objective, encoded via:
+#   • dense per-T1 completion (0.5 per planet)
+#   • small intermediate milestone nudges (1.0 at each 10% mark)
+#   • large 100% T1 survey prize (30.0)
+#   • quadratic terminal bonus (up to 30.0 at episode end)
+
+reward:
+  tier1_completion: 1.0
+  tier2_completion: 0.5
+  tier3_completion: 0.5
+  progress_weight: 0.005
+  near_completion_threshold: 0.8
+  near_completion_scale: 2.0
+  diversity_multiplier_max: 5.0
+  coverage_quota_per_bin: 5
+  coverage_weight: 0.5
+  science_weight_floor: 0.3
+  overhead_penalty_mode: absolute
+  overhead_penalty_weight: 0.5
+  overhead_penalty_power: 2.0
+  efficiency_weight: 0.0
+  idle_penalty_per_day: 0.0
+  unique_host_weight: 0.05
+  comparative_weight: 0.03
+  rarity_weight: 0.05
+  rarity_period_ref_days: 365.0
+  t1_milestone_fractions:
+  - 0.1
+  - 0.2
+  - 0.3
+  - 0.4
+  - 0.5
+  - 0.6
+  - 0.7
+  - 0.8
+  - 0.9
+  - 1.0
+  t1_milestone_bonus: 5.0
+  t1_final_milestone_bonus: 50.0
+  t1_milestone_step_above_one: 5.0
+  t1_overflow_milestone_bonus: 1.0
+  t1_terminal_weight: 30.0
+  t1_terminal_power: 2.0
+  subtract_random_baseline: false
+  random_baseline_per_step: 0.4
+  miss_penalty: 0.01
+  invalid_action_penalty: 0.05
+  reward_mode: absolute
+  comparison_interval_days: 7.0
+  compound_interval_days: 28.0
+  comparison_scale: 0.1
+  compound_scale: 0.01
+  baseline_trajectory_path: ''
+  science_weight_on_progress: true
+  science_weight_tiers:
+  - 1
+  t2_final_milestone_bonus: 0.0
+  t2_milestone_bonus: 0.0
+  t2_milestone_fractions: []
+  t2_milestone_pool: max_tier_eq_2
+  t2_milestone_step_above_one: 0.0
+  t2_overflow_milestone_bonus: 0.0

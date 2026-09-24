@@ -1,0 +1,67 @@
+# Full environment config — target-level action space.
+# Agent picks from all N targets; env schedules the next event for that target.
+# Suitable for attention/pointer policies over the full target set.
+
+mission:
+  start_bjd: 2462867.5
+  lifetime_days: 1278.375
+  cost_factor: 2.5
+  overhead_days_per_obs: 0.0
+
+slew:
+  rate_deg_per_min: 1.0
+  min_slew_seconds: 120.0
+  max_slew_seconds: 7200.0
+
+action:
+  type: target
+  target:
+    include_completed: false   # mask out targets that have reached max_tier
+
+observation:
+  include_population_bin_fractions: true
+  normalise: true
+  event_features:
+    - slew_time_days
+    - window_urgency_norm
+    - duration_days
+    - total_time_cost_days
+    - progress_in_tier
+    - obs_remaining_next_tier_norm
+    - base_science_value
+    - science_weight
+    - planet_radius_norm
+    - planet_temperature_norm
+    - planet_mass_norm
+    - stellar_temperature_norm
+    - stellar_metallicity
+    - tier_goal_norm
+    - event_type_binary
+    - days_to_window_end_norm
+  global_features:
+    - fraction_elapsed
+    - tier1_fraction
+    - tier2_fraction
+    - tier3_fraction
+    - used_science_fraction
+    - used_slew_fraction
+    - n_observations_norm
+    - n_completed_targets_norm
+
+reward:
+  tier1_completion: 1.0
+  tier2_completion: 3.0
+  tier3_completion: 10.0
+  progress_weight: 0.3
+  efficiency_weight: 0.5
+  near_completion_threshold: 0.7
+  near_completion_scale: 3.0
+  t1_milestone_fractions: [0.25, 0.5, 0.75, 0.90, 1.0]
+  t1_milestone_bonus: 20.0
+  t1_terminal_weight: 50.0
+  t1_terminal_power: 2.0
+  miss_penalty: 0.1
+  rarity_weight: 0.5          
+  rarity_period_ref_days: 365.0  
+
+seed: 42

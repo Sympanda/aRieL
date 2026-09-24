@@ -1,0 +1,67 @@
+[build-system]
+requires = ["setuptools>=69"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "aRieL"
+version = "0.1.0b1"
+description = "Reinforcement-learning environment for Ariel observation scheduling."
+readme = "README.md"
+license = { file = "LICENSE" }
+requires-python = ">=3.11"
+authors = [
+    { name = "James Kostas Ray" },
+]
+keywords = ["reinforcement-learning", "gymnasium", "ariel", "exoplanets", "scheduling"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Science/Research",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.11",
+    "Topic :: Scientific/Engineering :: Astronomy",
+]
+dependencies = [
+    "numpy>=1.24",
+    "pandas>=2.0",
+    "pyyaml>=6.0",
+    "gymnasium>=1.0",
+    "scipy>=1.12",
+]
+
+[project.optional-dependencies]
+plot = ["matplotlib>=3.8"]
+train = [
+    "torch>=2.1",
+    "stable-baselines3>=2.3",
+    "sb3-contrib>=2.3",
+    "tensorboard>=2.14",
+]
+dev = [
+    "pytest>=8.0",
+    "matplotlib>=3.8",
+    "torch>=2.1",
+    "stable-baselines3>=2.3",
+    "sb3-contrib>=2.3",
+]
+
+[project.urls]
+Repository = "https://github.com/Sympanda/aRieL"
+Issues = "https://github.com/Sympanda/aRieL/issues"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+aRieL = [
+    "configs/**/*.yaml",
+    "data/bundled/*.md",
+    "models/*",
+]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["src"]
+markers = [
+    "slow: full-mission paper reproduction (set ARIEL_RUN_PAPER=1)",
+]

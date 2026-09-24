@@ -1,0 +1,28 @@
+# Short-horizon preset for tutorials and smoke tests (no MCS required
+# if you pass make_demo_targets() into ArielEnv).
+
+mission:
+  start_bjd: 2462867.5
+  lifetime_days: 60.0
+  cost_factor: 2.5
+  overhead_days_per_obs: 0.0
+  max_tier_cap: 3
+
+slew:
+  rate_deg_per_min: 1.0
+  min_slew_seconds: 120.0
+  max_slew_seconds: 7200.0
+
+action:
+  type: topk
+  topk:
+    k: 16
+    sort_by: window_mid
+    exclude_started_blocks: false
+
+observation:
+  include_population_bin_fractions: true
+  min_bin_targets: 1
+  normalise: true
+
+seed: 42

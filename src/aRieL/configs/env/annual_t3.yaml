@@ -1,0 +1,39 @@
+# Eval-only: each mission year, undo progress on max_tier >= 3 planets.
+# Same full-set action space as full_set.yaml.  Do not train on this unless
+# you want that curriculum.
+
+mission:
+  start_bjd: 2462867.5
+  lifetime_days: 1278.375
+  cost_factor: 2.5
+  overhead_days_per_obs: 0.0
+  max_tier_cap: 3
+
+catalogue_growth:
+  enabled: false
+
+annual_t3_revisit:
+  enabled: true
+  period_days: 365.25
+  min_max_tier: 3
+
+slew:
+  rate_deg_per_min: 1.0
+  min_slew_seconds: 120.0
+  max_slew_seconds: 7200.0
+
+action:
+  type: full_set
+  full_set:
+    include_completed: false
+    cache_static: true
+    exclude_started_blocks: true
+    n_max: 1000
+    k_filter: 72
+
+observation:
+  include_population_bin_fractions: true
+  min_bin_targets: 10
+  normalise: true
+
+seed: 42

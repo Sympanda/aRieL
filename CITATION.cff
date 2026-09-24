@@ -1,0 +1,18 @@
+cff-version: 1.2.0
+message: >-
+  If you use this software, please cite it using these metadata.
+  The paper that reports the published checkpoint does not yet have a DOI
+  recorded in this repository. Add a preferred-citation block when it does.
+type: software
+title: aRieL
+abstract: >-
+  Reinforcement-learning environment for Ariel observation scheduling,
+  with a published ISAB checkpoint. The Ariel Mission Candidate Sample
+  is supplied by the user and is not covered by this software licence.
+authors:
+  - family-names: Ray
+    given-names: James Kostas
+version: 0.1.0b1
+date-released: "2026-09-24"
+license: MIT
+repository-code: "https://github.com/Sympanda/aRieL"

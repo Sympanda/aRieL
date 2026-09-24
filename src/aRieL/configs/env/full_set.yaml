@@ -1,0 +1,35 @@
+# Full-set action space: the agent sees (up to) every active target.
+# Use catalogue_growth.yaml if you want mid-episode TPC injections.
+# k_filter keeps the per-step candidate set small (useful for set policies).
+
+mission:
+  start_bjd: 2462867.5
+  lifetime_days: 1278.375
+  cost_factor: 2.5
+  overhead_days_per_obs: 0.0
+  max_tier_cap: 3
+
+# Explicitly off: do not inject TPC / TESS sources.
+catalogue_growth:
+  enabled: false
+
+slew:
+  rate_deg_per_min: 1.0
+  min_slew_seconds: 120.0
+  max_slew_seconds: 7200.0
+
+action:
+  type: full_set
+  full_set:
+    include_completed: false
+    cache_static: true
+    exclude_started_blocks: true   # omit in-progress blocks from ISAB tokens
+    n_max: 1000                    # MCS only (~814); unused while k_filter > 0
+    k_filter: 72                   # ISAB token count N
+
+observation:
+  include_population_bin_fractions: true
+  min_bin_targets: 10
+  normalise: true
+
+seed: 42
